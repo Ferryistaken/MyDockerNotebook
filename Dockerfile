@@ -101,22 +101,10 @@ ENV PATH="/opt/conda/envs/r-reticulate/bin:${PATH}"
 
 RUN Rscript -e 'rOptions = getOption("repos"); rOptions["CRAN"] = "http://cran.us.r-project.org"; options(repos = rOptions)'
 
-RUN Rscript -e 'install.packages("reticulate")'
+RUN Rscript -e 'install.packages(c("tidyverse", "dplyr", "plyr", "reticulate", "devtools", "tensorflow", "renv", "keras"), repos="https://cloud.r-project.org/")'
 RUN Rscript -e 'reticulate::conda_create(envname = "r-reticulate")'
 RUN Rscript -e 'reticulate::use_python("/opt/conda/envs/r-reticulate/bin/python3")'
 RUN Rscript -e 'reticulate::use_condaenv("/opt/conda/envs/r-reticulate/")'
-RUN Rscript -e 'install.packages("devtools")'
-RUN Rscript -e 'install.packages("keras")'
-RUN Rscript -e 'install.packages("tensorflow")'
-RUN Rscript -e 'devtools::install_github("Ferryistaken/ezstocks")'
-
-RUN Rscript -e 'install.packages("renv")'
-RUN Rscript -e 'renv::consent(provided = TRUE)'
-RUN Rscript -e 'renv::restore()'
 
 RUN Rscript -e 'keras::install_keras(method = "conda", envname = "r-reticulate")'
 RUN Rscript -e 'tensorflow::install_tensorflow(method = "conda", envname = "r-reticulate")'
-
-RUN Rscript -e 'install.packages("dplyr")'
-RUN Rscript -e 'install.packages("plyr")'
-
