@@ -99,6 +99,10 @@ WORKDIR "${HOME}"
 ########## MY CHANGES ###################
 ENV PATH="/opt/conda/envs/r-reticulate/bin:${PATH}"
 
+RUN Rscript -e 'rOptions = getOption("repos")'
+RUN Rscript -e 'rOptions["CRAN"] = "http://cran.us.r-project.org"'
+RUN Rscript -e 'options(repos = rOptions)'
+
 RUN Rscript -e 'install.packages("reticulate")'
 RUN Rscript -e 'reticulate::conda_create(envname = "r-reticulate")'
 RUN Rscript -e 'reticulate::use_python("/opt/conda/envs/r-reticulate/bin/python3")'
